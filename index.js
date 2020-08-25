@@ -66,7 +66,8 @@ httpServer.listen(8080, () => {
 
 const router = {
     ping : routeHandler.ping,
-    books : routeHandler.Books
+    books : routeHandler.Books,
+    notfound : routeHandler.notfound
 }
 
 
