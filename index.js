@@ -29,14 +29,14 @@ const httpServer = http.createServer((req, res) => {
     req.on('end', () => {
         buffer += decoder.end();
 
-        const parsedPayload = JSON.parse(buffer);
+        const parsedPayload = JSON.parse(JSON.stringify(buffer));
 
         const data = {
             trimedPath: trimedPath,
             query: queryStringObj,
             method: method,
             headers: headers,
-            payload: parsedPayload
+            payload: parsedPayload.length === 0 ? {} : JSON.parse(parsedPayload)
         };
 
         const chosenHandler = typeof (router[trimedPath]) !== 'undefined' ? router[trimedPath] : router.notfound;
