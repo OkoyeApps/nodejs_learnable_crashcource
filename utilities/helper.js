@@ -22,4 +22,5 @@ helper.formatObject = (oldObject = {}, newObject ={}) => {
     return {...oldObject, ...tempObj};
 }
 
+
 module.exports = helper;

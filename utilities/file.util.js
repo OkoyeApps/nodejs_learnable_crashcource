@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const helper = require('./helper')
 var lib = {
-    baseDir: path.join(__dirname, '/../.data/')
+    baseDir: path.join(__dirname, '/../database/')
 };
 
 //creating
@@ -35,19 +35,58 @@ lib.create = (dir, filename, data, callback) => {
     });
 };
 
-//reding
 
-lib.read = (dir, filename, callback) => {
-    const filePath = lib.baseDir + dir + "\\" + filename + '.json';
-    fs.readFile(filePath, 'utf-8', (err, data) => {
-        if (!err && data) {
-            callback(false, JSON.parse(data));
-        }
-        else {
-            callback(err, data);
-        }
-    });
-};
+const fsPromises = require('fs').promises;
+
+// read one file
+exports.find = async (dir, filename) => {
+
+    try {
+        const filePath = lib.baseDir + dir + "\\" + filename + '.json';
+        const content = await fsPromises.readFile(filePath, 'utf-8');
+ 
+        return JSON.parse(content);
+    } catch (err) {
+    console.error(err);
+    }
+
+}
+
+
+const {_JSON} = require('./json.util');
+
+exports.all = async (dir) => {
+    const fileDir = lib.baseDir + dir;
+
+    try {
+
+        const files = await fsPromises.readdir(fileDir);
+
+        // read all files at ones and return
+        return Promise.all(files.map((file) => {
+
+            let filePath = fileDir + '\\' + file;
+
+            const content = fsPromises.readFile(filePath, 'utf-8');
+
+            return content;
+
+        })
+        )
+        .then((_files)=> {
+            let _json = _JSON.decode(_files);
+            
+            return {count: _json.length, books: _json};
+
+        }).catch((err) => console.error(err));
+
+    } catch (err) {
+        console.error(err);
+    }
+
+}
+
+
 
 //updating
 lib.update = (dir, filename, data, callback) => {
@@ -83,7 +122,6 @@ lib.update = (dir, filename, data, callback) => {
             });
 
 
-
         } else {
             callback('could not open file for updating, maybe it does not exist');
         }
@@ -102,4 +140,4 @@ lib.delete = (dir, filename, callback) => {
     });
 };
 
-module.exports = lib;
+// module.exports = lib;
