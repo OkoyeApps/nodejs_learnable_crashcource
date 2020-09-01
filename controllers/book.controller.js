@@ -40,6 +40,8 @@ exports.list = async (req, res) => {
         
 };
 
+
+// update a book
 exports.update = async (req, res) => {
     
     try {
@@ -49,3 +51,13 @@ exports.update = async (req, res) => {
 
     }
 }
+
+// delete a file
+exports.delete = async (req, res) => {
+    let message = await fileUtil.delete('books', req.params.name);
+    
+    if (message.errno) return res.status(404).send(message);
+    
+    res.status(200).send('deletion was successful');
+}
+

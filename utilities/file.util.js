@@ -47,7 +47,8 @@ exports.find = async (dir, filename) => {
  
         return JSON.parse(content);
     } catch (err) {
-    console.error(err);
+        console.error(err);
+        throw Error(err)
     }
 
 }
@@ -78,10 +79,15 @@ exports.all = async (dir) => {
             
             return {count: _json.length, books: _json};
 
-        }).catch((err) => console.error(err));
+        }).catch((err) => {
+            console.error(err);
+            throw Error(err);
+        });
 
     } catch (err) {
         console.error(err);
+        throw Error(err);
+
     }
 
 }
@@ -129,6 +135,21 @@ lib.delete = (dir, filename, callback) => {
     });
 };
 
+// delete a  file
+exports.delete = async (dir, filename) => {
+    try {
 
+        const filePath = lib.baseDir + dir + "\\" + filename + '.json';
+        // if the file exist
+        await fsPromises.access(filePath);
+        await fsPromises.unlink(filePath);
+
+        return true;
+        
+    } catch (error) {
+        console.error('error', error);
+        return error;
+    }
+}
 
 // module.exports = lib;
