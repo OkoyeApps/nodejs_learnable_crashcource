@@ -19,7 +19,7 @@ helper.formatObject = (oldObject = {}, newObject ={}) => {
             tempObj[key] = newObject[key];
         }
     })
-    return {...oldObject, ...tempObj};
+    return tempObj;
 }
 
 

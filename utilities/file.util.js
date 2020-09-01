@@ -87,46 +87,35 @@ exports.all = async (dir) => {
 }
 
 
+exports.update = async (dir, filename, data) => {
+    
+    try {
+        const filePath = lib.baseDir + dir + "\\" + filename + '.json';
+        // open the file for read from and writing into the file
+        const fileHandle = await fsPromises.open(filePath, 'r+');
 
-//updating
-lib.update = (dir, filename, data, callback) => {
-    const filePath = lib.baseDir + dir + "\\" + filename + '.json';
-    //open the file
-    fs.open(filePath, 'r+', (err, fileDescriptor) => {
-        if (!err && fileDescriptor) {
-            fs.readFile(fileDescriptor, 'utf-8', (err, bookToUpdate) => {
-                if (!err && bookToUpdate) {
-                    let updatedBook = helper.formatObject(JSON.parse(bookToUpdate), data);
-                    var updatedData = JSON.stringify(updatedBook);
-                    //truncate the fule for update;
-                    fs.truncate(fileDescriptor, (err) => {
-                        if (!err) {
-                            fs.writeFile(fileDescriptor, updatedData, (err) => {
-                                if (!err) {
-                                    fs.close(fileDescriptor, (err) => {
-                                        if (!err) {
-                                            callback(false);
-                                        } else {
-                                            callback("error closing the file");
-                                        }
-                                    });
-                                } else {
-                                    callback('error writing to existing file');
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    callback(err);
-                }
-            });
+        const fileContent = await fsPromises.readFile(fileHandle, 'utf-8');
+        
+        await fileHandle.close();
+        
+        // update the file content with data (request data) provided
+        let updatedContent = helper.formatObject(JSON.parse(fileContent), data);
+        
+        updatedContent = JSON.stringify(updatedContent);
 
+        // truncate the file for update
+        await fsPromises.truncate(filePath)
 
-        } else {
-            callback('could not open file for updating, maybe it does not exist');
-        }
-    });
-};
+        await fsPromises.writeFile(filePath, updatedContent);
+
+        return JSON.parse(updatedContent);
+
+    } catch (error) {
+        console.error('error', error);
+        throw Error(error);
+    }
+
+}
 
 //Delete File
 lib.delete = (dir, filename, callback) => {
@@ -139,5 +128,7 @@ lib.delete = (dir, filename, callback) => {
         }
     });
 };
+
+
 
 // module.exports = lib;

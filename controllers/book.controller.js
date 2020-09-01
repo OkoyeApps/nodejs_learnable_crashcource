@@ -40,3 +40,12 @@ exports.list = async (req, res) => {
         
 };
 
+exports.update = async (req, res) => {
+    
+    try {
+        let book = await fileUtil.update('books', req.params.name, req.body);
+        res.send(book);
+    } catch (error) {
+
+    }
+}
