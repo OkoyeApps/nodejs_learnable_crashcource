@@ -1,10 +1,10 @@
 # nodejs_learnable_crashcource
 crash course for learnable node js class
 
-This is simulation of writing and reading to a file.
-It uses promises.
+This is simulation of writing and reading to/from a file.
+
 Implemented with express.js as the only dependency
-It does not follow it fork structure and pattern
+It does not follow it fork structure and pattern, thus it uses promises, and expressjs.
 
 ## Usage
 On console do: `mom install` to the only dependency
