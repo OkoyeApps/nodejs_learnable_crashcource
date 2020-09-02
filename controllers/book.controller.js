@@ -13,8 +13,9 @@ exports.create = async (req, res) => {
             req.body.author ? req.body.author : res.send('Error: book author not provided'),
             req.body.publisher ? req.body.publisher : res.send('Error: book publisher not provided'),
             req.body.price,
-            req.body.isbn_number ? req.body.isbn_number : res.send('Error: book isbn_number not provided')
-        )
+            req.body.isbn_number ? req.body.isbn_number : res.send('Error: book isbn_number not provided'),
+            req.body.total
+            )
 
         if (!book.validate()) return res.send('Error: make sure the book name, author, publisher and isbn_number are provided');
         
@@ -32,9 +33,9 @@ exports.create = async (req, res) => {
 // retrieve a book
 exports.detail = async (req, res) => {
     // return res.send(req.params.name);
-    if (req.params.name) {
+    if (req.params.filename) {
        try {
-       const book = await fileUtil.find('books', req.params.name);
+       const book = await fileUtil.find('books', req.params.filename);
 
         if(!book) return res.status(404).send({ message: 'book not found', data: null });
         
@@ -69,18 +70,18 @@ exports.list = async (req, res) => {
 
 // update a book
 exports.update = async (req, res) => {
-    
+  
     try {
-        let book = await fileUtil.update('books', req.params.name, req.body);
+        let book = await fileUtil.update('books', req.params.filename, req.body);
         res.send(book);
     } catch (error) {
-
+        // error
     }
 }
 
 // delete a file
 exports.delete = async (req, res) => {
-    let message = await fileUtil.delete('books', req.params.name);
+    let message = await fileUtil.delete('books', req.params.filename);
     
     if (message.errno) return res.status(404).send(message);
     

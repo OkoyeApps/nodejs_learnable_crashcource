@@ -1,6 +1,6 @@
 const express = require('express');
 
-// const users = require('../routes/users.route');
+const users = require('../routes/users.route');
 const books = require('../routes/books.route');
 
 /**
@@ -9,6 +9,7 @@ const books = require('../routes/books.route');
 module.exports = function r(app) {
   app.use(express.json());
   app.use('/books', books);
+  app.use('/users', users);
 
 
 };

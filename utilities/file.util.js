@@ -2,43 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const fsPromises = require('fs').promises;
 
-const helper = require('./helper')
+const helper = require('./helper');
+const {_JSON} = require('./json.util');
 
 
-var lib = {
+let lib = {
     baseDir: path.join(__dirname, '/../database/')
 };
-
-//creating
-// lib.create = (dir, filename, data, callback) => {
-//     //open file for writing
-//     const filePath = lib.baseDir + dir + "\\" + filename + '.json';
-//     fs.open(filePath, 'wx', (err, fileDescriptor) => {
-//         if (!err && fileDescriptor) {
-//             //convert the data to string
-//             const stringData = JSON.stringify(data);
-//             //write th file and close it
-//             fs.writeFile(fileDescriptor, stringData, (err) => {
-//                 if (!err) {
-//                     fs.close(fileDescriptor, (err) => {
-//                         if (!err) {
-//                             // callback(false); //Header already set error
-//                             return false;
-//                         } else {
-//                             callback("Error closing the new file");
-//                         }
-//                     });
-//                 } else {
-//                     callback("Error writing to new file");
-//                 }
-//             });
-
-//         } else {
-//             callback("could not creat new file, it may already exist");
-//         }
-//     });
-// };
-
 
 exports.create = async (dir, data={}) => {
      try {
@@ -80,8 +50,6 @@ exports.find = async (dir, filename) => {
 }
 
 
-const {_JSON} = require('./json.util');
-
 // get all
 exports.all = async (dir) => {
     const fileDir = lib.baseDir + dir;
@@ -118,7 +86,7 @@ exports.all = async (dir) => {
 
 }
 
-// update an file
+// update a file
 exports.update = async (dir, filename, data) => {
     
     try {
