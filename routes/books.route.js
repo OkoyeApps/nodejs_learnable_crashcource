@@ -33,7 +33,7 @@ router.patch('/:filename', book.update);
 
 router.delete('/:filename', book.delete);
 
-// Book request
+// Book request, request body {"userId": "filename"}
 router.post('/:filename/requests', bookRequest.makeRequest);
 
 
