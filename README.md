@@ -9,7 +9,7 @@ It does not follow it fork structure and pattern, thus it uses promises, and exp
 ## Usage
 On console do: `npm install` to the only dependency
 Start the server: `node index.js`
-This will start a server at: `localhost:3000`
+This will start a server at: `localhost:3000` or at any other chosen/preferred port
 #
 - Books endpoint: `localhost:3000/books`
 - Users endpoint: `localhost:3000/users`
