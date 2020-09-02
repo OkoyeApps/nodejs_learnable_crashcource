@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
             req.body.publisher ? req.body.publisher : res.send('Error: book publisher not provided'),
             req.body.price,
             req.body.isbn_number ? req.body.isbn_number : res.send('Error: book isbn_number not provided'),
-            req.body.total
+            req.body.count
             )
 
         if (!book.validate()) return res.send('Error: make sure the book name, author, publisher and isbn_number are provided');
@@ -52,6 +52,8 @@ exports.detail = async (req, res) => {
     }
 
 };
+
+
 
 
 // list all books

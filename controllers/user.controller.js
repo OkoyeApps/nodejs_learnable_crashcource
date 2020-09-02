@@ -30,11 +30,11 @@ exports.create = async (req, res) => {
 
 // retrieve a user
 exports.detail = async (req, res) => {
-    // return res.send(req.params.name);
+
     if (req.params.id) {
        try {
        const user = await fileUtil.find('users', req.params.id);
-
+        
         if(!user) return res.status(404).send({ message: 'user not found', data: null });
         
         res.status(200).send({ message: 'user retrieved!', data: user });

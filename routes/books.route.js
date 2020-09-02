@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const book = require('../controllers/book.controller');
+const bookRequest = require('../controllers/book.request.controller');
 
 /**
  * Define book routes
@@ -21,7 +22,7 @@ sample request body
 	"author": "author's name",
 	"publisher": "London",
     "isbn_number": "123-2345",
-    "total": 1
+    "count": 1
 }
 */
 // post requires full sample request body
@@ -31,6 +32,9 @@ router.put('/:filename', book.update);
 router.patch('/:filename', book.update);
 
 router.delete('/:filename', book.delete);
+
+// Book request
+router.post('/:filename/requests', bookRequest.makeRequest);
 
 
 module.exports = router;
