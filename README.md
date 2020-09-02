@@ -20,5 +20,5 @@ Features:
 - User CRUD
 - Book CRUD
 - User can request to borrow a book
-- *User cannot return book yet* this feature was not implemented
+- *User cannot return book yet*. this feature is not available yet.
 
