@@ -117,17 +117,6 @@ exports.update = async (dir, filename, data) => {
 
 }
 
-//Delete File
-lib.delete = (dir, filename, callback) => {
-    const filePath = lib.baseDir + dir + "\\" + filename + '.json';
-    fs.unlink(filePath, (err) => {
-        if (!err) {
-            callback(false);
-        } else {
-            callback(err);
-        }
-    });
-};
 
 // delete a  file
 exports.delete = async (dir, filename) => {

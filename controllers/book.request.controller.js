@@ -16,25 +16,28 @@ exports.makeRequest = async (req, res) => {
         
         // verify book
         let book = await fileUtil.find('books', req.params.filename);
-
         if(!book) return res.status(404).send({ message: 'book not found', data: null });
         
         // check if the book is available for rent
-        let bookIsAvailable = book.borrowers.length === book.count;
+        let bookIsAvailable = book.count > 0;
         if(!bookIsAvailable) return res.send('This book is not available for now, check back next time')
         
         // reduce the number/count of available this book
         book.count = book.count - 1;
 
+        // check if user has borrowed this book
+        const alreadyBorrowed = book.borrowers.includes(user.filename)
+        if (alreadyBorrowed) return res.send('This book already borrowed by this user');
+
         // rent the book to the user
-        user.books.push(book);
+        book.borrowers.push(user.filename);
+        user.books.push(book.filename);
+        // res.send({status: 'success', book, user});
 
         // update book and user
-        book = await fileUtil.update('books', req.params.id, req.body);
-        user = await fileUtil.update('users', req.params.userId, req.body);
+        book = await fileUtil.update('books', book.filename, book);
+        user = await fileUtil.update('users', user.filename, user);
 
-
-        
         res.send({status: 'success', book, user});
 
     } catch (err) {
