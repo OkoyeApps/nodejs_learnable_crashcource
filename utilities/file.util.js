@@ -70,8 +70,8 @@ exports.all = async (dir) => {
         )
         .then((_files)=> {
             let _json = _JSON.decode(_files);
-            
-            return {count: _json.length, books: _json};
+            const name = `${dir}`;
+            return {count: _json.length, [name]: _json};
 
         }).catch((err) => {
             console.error(err);
@@ -99,7 +99,7 @@ exports.update = async (dir, filename, data) => {
         await fileHandle.close();
         
         // update the file content with data (request data) provided
-        let updatedContent = helper.formatObject(JSON.parse(fileContent), data);
+        let updatedContent = helper.processUpdate(JSON.parse(fileContent), data);
         
         updatedContent = JSON.stringify(updatedContent);
 

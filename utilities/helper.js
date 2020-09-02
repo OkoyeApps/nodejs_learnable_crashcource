@@ -12,14 +12,16 @@ helper.generateRandomString = (stringLength) => {
     return str;
 }
 
-helper.formatObject = (oldObject = {}, newObject ={}) => {
-    let tempObj  = {}
-    Object.keys(newObject).map(key => {
-        if(oldObject.hasOwnProperty(key)){
-            tempObj[key] = newObject[key];
+helper.processUpdate = (oldObject = {}, newObject ={}) => {
+
+    for (let [property, value] of Object.entries(newObject)) {
+        if (!oldObject.hasOwnProperty(property)) {
+            continue;
         }
-    })
-    return tempObj;
+        oldObject[ property ] = value;
+    }
+
+    return oldObject;
 }
 
 
