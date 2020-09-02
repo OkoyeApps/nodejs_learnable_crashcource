@@ -1,7 +1,33 @@
-// const { User } = require('../models/user.model');
+const { Book } = require('../models/book.model');
 const fileUtil = require('../utilities/file.util');
 
 
+
+// create a book
+exports.create = async (req, res) => {
+    // return res.send(req.boo)
+    
+    try {
+        let book = new Book(
+            req.body.name ? req.body.name : res.send('Error: book name not provided'),
+            req.body.author ? req.body.author : res.send('Error: book author not provided'),
+            req.body.publisher ? req.body.publisher : res.send('Error: book publisher not provided'),
+            req.body.price,
+            req.body.isbn_number ? req.body.isbn_number : res.send('Error: book isbn_number not provided')
+        )
+
+        if (!book.validate()) return res.send('Error: make sure the book name, author, publisher and isbn_number are provided');
+        
+        book = await fileUtil.create('books', {...book});
+        if(book.errno) return res.status(500).send(book)
+        res.send({status: 'success', data: book});
+
+    } catch (err) {
+        console.error(err);
+        res.send(err);
+    }
+
+}
 
 // retrieve a book
 exports.detail = async (req, res) => {

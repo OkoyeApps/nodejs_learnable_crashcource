@@ -12,7 +12,7 @@ const book = require('../controllers/book.controller');
 
 router.get('/:name', book.detail);
 router.get('/', book.list);
-// router.post('/', book.create);
+router.post('/', book.create);
 router.put('/:name', book.update);
 router.delete('/:name', book.delete);
 router.patch('/:name', book.update);
