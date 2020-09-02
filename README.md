@@ -11,8 +11,8 @@ On console do: `npm install` to the only dependency
 Start the server: `node index.js`
 This will start a server at: `localhost:3000`
 #
-Books endpoint: `localhost:3000/books`
-Users endpoint: `localhost:3000/users`
+- Books endpoint: `localhost:3000/books`
+- Users endpoint: `localhost:3000/users`
 
 check the directories: `providers/routes.js` and `routes/` to see the routes and it requirements
 
