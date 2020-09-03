@@ -26,5 +26,6 @@ The users and books created are located in the `database/` directory
 - User can request to borrow a book
 - `*` *User cannot return book yet*. 
 - `*` *There is no access control or roles yet*
+#
 `*` These features aee not available yet, and may not be implement. The aim, reading and writing to files, of the project has been achieve.
 
